@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "@vant/weapp": "^1.10.2",
+    "vant": "^3.4.5"
+  },
+  "name": "xiaomoliang-weixinmusic",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XiaoMoLiang/XiaoMoLiang.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XiaoMoLiang/XiaoMoLiang/issues"
+  },
+  "homepage": "https://github.com/XiaoMoLiang/XiaoMoLiang#readme"
+}

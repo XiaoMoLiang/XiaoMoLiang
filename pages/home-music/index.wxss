@@ -1,0 +1,15 @@
+/* pages/home-music/index.wxss */
+.van-search_content{
+    background-color: #fff !important ;
+}
+
+/* 轮播图样式 */
+.swiper{
+}
+
+.swiper .swiper-item{
+    display: flex;
+}
+.swiper .swiper-item .image{
+    width: 100%;
+}

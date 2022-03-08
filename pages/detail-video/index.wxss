@@ -1,0 +1,51 @@
+/* pages/detail-video/index.wxss */
+page {
+    padding-top: 225px;
+}
+
+video {
+    position: fixed;
+    width: 750rpx;
+    top: 0;
+}
+
+.videoContent{
+    padding: 20rpx;
+    /* margin-bottom: 20rpx; */
+}
+
+.videoContent .title{
+    font-size: 36rpx;
+    font-weight: bold;
+    margin-bottom: 20rpx;
+}
+
+.videoContent .name{
+    font-size: 26rpx;
+    color: #666;
+    margin-bottom: 15rpx;
+}
+
+.itemList{
+    padding: 20rpx;
+}
+
+.itemList .info{
+    font-size: 32rpx;
+    font-weight: bold;
+    margin-bottom: 20rpx;
+}
+.itemList .item{
+    display: flex;
+    margin-bottom: 15rpx;
+}
+.itemList .item  .img image{
+    width: 100%;
+}
+.itemList .item .img{
+    width: 35%;
+    margin-right: 15rpx;
+}
+.itemList .item .content .con-las{
+    color: #666;
+}
