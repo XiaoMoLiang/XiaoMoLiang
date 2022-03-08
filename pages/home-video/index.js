@@ -22,6 +22,14 @@ Page({
         this.gettopMVs(0)
     },
 
+    // 封装事件处理方法
+    handleVideoItemClick(e){
+        let id = e.currentTarget.dataset.id
+        wx.navigateTo({
+          url: `../detail-video/index?id=${id}`,
+        })
+    },
+
     // 获取视频数据
     async gettopMVs(offset) {
         if (!this.data.hasMore) return

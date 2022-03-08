@@ -1,6 +1,6 @@
 <!--components/video-item-v1/index.wxml-->
 <wxs src="../../utils/format.wxs" module="format"></wxs>
-<view class="item">
+<view class="item"  > 
     <view class="album">
         <image class="image" mode="widthFix" src="{{item.cover}}"></image>
         <view class="info">
