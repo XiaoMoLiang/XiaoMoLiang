@@ -17,7 +17,7 @@
         "minified": true,
         "newFeature": false,
         "coverView": true,
-        "nodeModules": false,
+        "nodeModules": true,
         "autoAudits": false,
         "showShadowRootInWxmlPanel": true,
         "scopeDataCheck": false,
@@ -47,7 +47,7 @@
         "useCompilerPlugins": false
     },
     "compileType": "miniprogram",
-    "libVersion": "2.22.1",
+    "libVersion": "2.19.3",
     "appid": "wx3ca67a85db1386e3",
     "projectname": "LJHMusic",
     "debugOptions": {

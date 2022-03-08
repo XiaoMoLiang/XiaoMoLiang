@@ -1,14 +1,15 @@
 {
     "pages": [
-        "pages/home-video/index",
         "pages/home-music/index",
+        "pages/home-video/index",
         "components/video-item-v1/index",
-        "pages/detail-video/index"
+        "pages/detail-video/index",
+        "pages/detail-serrch/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "Weixin",
+        "navigationBarBackgroundColor": "#fafafa",
+        "navigationBarTitleText": "网易音乐",
         "navigationBarTextStyle": "black"
     },
     "tabBar": {
