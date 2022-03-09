@@ -39,12 +39,15 @@ video {
     display: flex;
     margin-bottom: 15rpx;
 }
-.itemList .item  .img image{
+.itemList .item .img{
+    width: 40%;
+    margin-right: 15rpx;
+}
+.itemList .item  .img .image{
     width: 100%;
 }
-.itemList .item .img{
-    width: 35%;
-    margin-right: 15rpx;
+.itemList .item .content {
+    font-size: 26rpx;
 }
 .itemList .item .content .con-las{
     color: #666;

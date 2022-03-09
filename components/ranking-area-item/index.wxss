@@ -1,0 +1,42 @@
+/* components/ranking-item/index.wxss */
+.item{
+    display: flex;
+    background-color: #ecebec;
+    margin-bottom: 15rpx;
+    border-radius: 15rpx;
+}
+.left{
+    padding: 25rpx;
+    flex: 1;
+}
+.left .left-title{
+    font-size: 32rpx;
+    font-weight:bold;
+    margin-bottom: 15rpx;
+}
+.left .left-name{
+    font-size: 26rpx;
+    margin-bottom: 10rpx;
+}
+.left .left-name text{
+    color: #666;
+}
+.right{
+    width: 200rpx;
+    position: relative;
+}
+.right .image{
+    width: 100%;
+}
+.right .playCount{
+    text-align: center;
+    position: absolute;
+    color: #fff;
+    padding: 5rpx;
+    font-size: 22rpx;
+    border-radius: 15rpx;
+    right: 0;
+    bottom: 0;
+    width: 80rpx;
+    background-color: rgba(0, 0, 0, .7);
+}
