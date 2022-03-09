@@ -15,7 +15,7 @@
 <view class="itemList">
     <view class="info">推荐视频</view>
     <view class="item" wx:for="{{mvRelated}}" wx:key="vid">
-        <view class="img"><image src="{{item.coverUrl}}" mode="widthFix"></image></view>
+        <view class="img"><image class="image" src="{{item.coverUrl}}" mode="widthFix"></image></view>
         <view class="content">
             <view class="con-fis">{{item.title}}</view>
             <view class="con-las">{{item.creator[0].userName}}</view>

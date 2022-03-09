@@ -1,0 +1,14 @@
+<!--components/ranking-item/index.wxml-->
+<wxs src="../../utils/format.wxs" module="format"></wxs>
+<view class="item">
+    <view class="left">
+        <view class="left-title">{{item.name}}</view>
+        <block wx:for="{{item.songList}}">
+            <view class="left-name">{{index + 1}}.{{item.al.name}} - <text>{{item.ar[0].name}}</text></view>
+        </block>
+    </view>
+    <view class="right">
+        <image class="image" src="{{itme.couverImgUrl}}" mode="widthFix" ></image>
+        <view class="playCount">{{format.formatCout(item.playCount)}}</view>
+    </view>
+</view>
