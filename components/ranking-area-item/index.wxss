@@ -4,6 +4,7 @@
     background-color: #ecebec;
     margin-bottom: 15rpx;
     border-radius: 15rpx;
+    overflow:hidden
 }
 .left{
     padding: 25rpx;
@@ -27,6 +28,7 @@
 }
 .right .image{
     width: 100%;
+    height: 100%;
 }
 .right .playCount{
     text-align: center;
