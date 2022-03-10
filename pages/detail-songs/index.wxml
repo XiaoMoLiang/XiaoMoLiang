@@ -1,0 +1,14 @@
+<!--pages/detail-songs/index.wxml-->
+<block wx:if="{{type==='rank'}}">
+    <area-header title="{{songInfo.name}}" showRight="{{false}}"></area-header>
+</block>
+<block wx:if="{{type==='menu'}}">
+    <song-detail-header songInfo="{{songInfo}}" ></song-detail-header>
+</block>
+
+<view class="song-list">
+    <block wx:for="{{songInfo.tracks}}" wx:key="id">
+        <!-- 把数据传到子组件里 -->
+        <song-item-v2 item="{{item}}" index="{{index+1}}"></song-item-v2>
+    </block>
+</view>

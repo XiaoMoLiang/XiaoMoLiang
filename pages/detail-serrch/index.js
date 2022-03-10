@@ -1,66 +1,48 @@
 // pages/detail-serrch/index.js
+import {getSearchHot,getSearchSuggest} from '../../service/api_search'
+
 Page({
 
-    /**
-     * 页面的初始数据
-     */
     data: {
-
+        hotKeywords:[],
+        suggestSongs:[],
+        searchValue:""
     },
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad: function (options) {
-
+        // 获取页面数据
+        this.getPageData()
     },
 
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
     onUnload: function () {
 
     },
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
+    // 网络请求
+    getPageData(){
+        getSearchHot().then(res=>{
+            this.setData({hotKeywords:res.result.hots})
+        })
     },
 
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
+    // 事件处理
+    handSearchChang(e){
+        // 获取输入的关键字
+        const searchValue = e.detail
 
-    },
+        // 保存关键字
+        this.setData({searchValue})
 
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
+        // 判断关键字为空字符的处理逻辑
+        if(!searchValue.length) {
+            this.setData({suggestSongs:[]})
+            return
+        }
+        
+        // 根据关键字进行搜索
+        getSearchSuggest(searchValue).then(res=>{
+            this.setData({suggestSongs:res.result.allMatch})
+        })
     }
+
 })

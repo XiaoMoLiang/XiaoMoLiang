@@ -3,12 +3,12 @@
 <view class="item">
     <view class="left">
         <view class="left-title">{{item.name}}</view>
-        <block wx:for="{{item.songList}}">
+        <block wx:for="{{item.songList}}" wx:key="index">
             <view class="left-name">{{index + 1}}.{{item.al.name}} - <text>{{item.ar[0].name}}</text></view>
         </block>
     </view>
     <view class="right">
-        <image class="image" src="{{itme.couverImgUrl}}" mode="widthFix" ></image>
+        <image class="image" src="{{item.couverImgUrl}}"></image>
         <view class="playCount">{{format.formatCout(item.playCount)}}</view>
     </view>
 </view>

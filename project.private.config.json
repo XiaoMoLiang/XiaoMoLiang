@@ -17,6 +17,18 @@
                     "pathName": "pages/detail-video/index",
                     "query": "id=14480854",
                     "scene": null
+                },
+                {
+                    "name": "detail-song-menu",
+                    "pathName": "pages/detail-songs/index",
+                    "query": "id=7044174061&type=menu",
+                    "scene": null
+                },
+                {
+                    "name": "detail-serrch",
+                    "pathName": "pages/detail-serrch/index",
+                    "query": "",
+                    "scene": null
                 }
             ]
         }

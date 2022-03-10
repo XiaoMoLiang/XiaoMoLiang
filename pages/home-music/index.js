@@ -1,6 +1,7 @@
 // pages/home-music/index.js
 import {
-  rankingStore
+  rankingStore,
+  rankingMap
 } from "../../store/index"
 
 import {
@@ -22,7 +23,7 @@ Page({
     recommendSongMenu: [],
     recommendSongs: [],
     playLists: [], // 推荐榜
-    rankings: []
+    rankings: { 0: {}, 2: {}, 3: {} }
 
   },
 
@@ -63,7 +64,7 @@ Page({
         recommendSongs
       })
     })
-    rankingStore.onState("newRanking", this.getRankingHandler(0))  //新歌
+    rankingStore.onState("newRanking", this.getRankingHandler(0)) //新歌
     rankingStore.onState("originRanking", this.getRankingHandler(2)) // 原创
     rankingStore.onState("upRanking", this.getRankingHandler(3)) // 飙升
   },
@@ -72,6 +73,23 @@ Page({
   headClickInput() {
     wx.navigateTo({
       url: '/pages/detail-serrch/index',
+    })
+  },
+
+  // 子组件的方法
+  handMoreClick() {
+    this.navigateToDetailSongPage("hotRanking")
+  },
+
+  handRankingClick(e) {
+    const idx = e.currentTarget.dataset.idx;
+    const rankingName = rankingMap[idx]
+    this.navigateToDetailSongPage(rankingName)
+  },
+
+  navigateToDetailSongPage(rankingName) {
+    wx.navigateTo({
+      url:`/pages/detail-songs/index?ranking=${rankingName}&type=rank`
     })
   },
 
@@ -87,7 +105,7 @@ Page({
   handLeSwiper() {
     throttleQueryRect('.image').then(res => {
       const rect = res[0]
-      console.log(rect);
+      // console.log(rect);
       this.setData({
         swiperHeight: rect.height
       })
@@ -127,11 +145,10 @@ Page({
         songList,
         playCount
       }
-      const originRankings = [...this.data.rankings]
-      originRankings.push(rankingObj)
+      const newRankings = { ...this.data.rankings, [idx]: rankingObj}
 
       this.setData({
-        rankings: originRankings
+        rankings: newRankings
       })
     }
   },
