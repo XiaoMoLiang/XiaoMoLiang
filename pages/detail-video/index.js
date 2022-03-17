@@ -12,7 +12,8 @@ Page({
     data: {
         mvURLInfo: {},
         mvDetail: {},
-        mvRelated: {}
+        mvRelated: {},
+        id:""
 
     },
 
@@ -21,7 +22,7 @@ Page({
      */
     onLoad: function (options) {
         let id = options.id
-        
+        this.setData({id})
         // 获取页面数据
         this.getPageDate(id)
 
@@ -45,6 +46,16 @@ Page({
             this.setData({
                 mvRelated: res.data
             })
+        })
+    },
+
+    // 跳转视频
+    handMvCilck(e){
+        let id = this.data.id
+        console.log(id);
+        return
+        wx.navigateTo({
+          url: `./index.wxml?id=${id}`,
         })
     }
 

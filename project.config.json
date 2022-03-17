@@ -47,7 +47,7 @@
         "useCompilerPlugins": false
     },
     "compileType": "miniprogram",
-    "libVersion": "2.19.3",
+    "libVersion": "2.18.1",
     "appid": "wx3ca67a85db1386e3",
     "projectname": "LJHMusic",
     "debugOptions": {

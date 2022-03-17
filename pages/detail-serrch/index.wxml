@@ -1,29 +1,37 @@
 <!--pages/detail-serrch/index.wxml-->
 <!-- 搜索框 -->
-<van-search background="#f7f7f7" shape="round" bind:change="handSearchChang" ></van-search>
+<van-search class="search" show-action="{{searchValue}}" background="#f7f7f7" value="{{searchValue}}" shape="round" bind:change="handSearchChang" bind:search="handleSearchAction"></van-search>
 
 <!-- 热门搜索 -->
 <view class="hot" wx:if="{{!searchValue.length && !suggestSongs.length}}">
     <area-header title="热门搜索" showRight="{{false}}"></area-header>
     <view class="list">
-        <block wx:for="{{hotKeywords}}" wx:key="first" >
-            <view class="tag">{{item.first}}</view>
+        <block wx:for="{{hotKeywords}}" wx:key="first">
+            <view class="tag" bindtap="handleTagItemClick" data-keyword="{{item.first}}">{{item.first}}</view>
         </block>
     </view>
 </view>
 
 <!-- 建议搜索 -->
-<view class="suggest" wx:else="{{!searchValue.length}}">
+<view class="suggest" wx:elif="{{suggestSongs.length && !resultSongs.length }}">
     <view class="title">搜索"{{searchValue}}"</view>
     <view class="list">
-        <block wx:for="{{suggestSongs}}" wx:key="keyword">
-            <view class="item">
+        <block wx:for="{{suggestNades}}" wx:key="keyword">
+            <view class="item" bindtap="handleSuggestItemClick" data-index="{{index}}">
                 <image class="icon" mode="widthFix" src="/images/icon/search_icon.png"></image>
-                <text>{{item.keyword}}</text>
+                <rich-text nodes="{{item}}"></rich-text>
             </view>
         </block>
     </view>
 </view>
 
 <!-- 搜索结果 -->
-<view></view>
+<view class="result" wx:if="{{resultSongs.length}}">
+    <view class="title">最佳匹配</view>
+    <view class="list">
+        <block wx:for="{{resultSongs}}" wx:key="id">
+            <song-item-v2 item="{{item}}" index="{{index+1}}"></song-item-v2>
+        </block>
+    </view>
+
+</view>

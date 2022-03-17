@@ -40,11 +40,11 @@ video {
     margin-bottom: 15rpx;
 }
 .itemList .item .img{
-    width: 40%;
     margin-right: 15rpx;
 }
 .itemList .item  .img .image{
-    width: 100%;
+    width: 200rpx;
+    height: 130rpx;
 }
 .itemList .item .content {
     font-size: 26rpx;
