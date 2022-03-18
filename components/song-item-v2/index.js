@@ -1,4 +1,8 @@
 // components/song-item-v2/index.js
+import {
+    playeStore
+} from '../../store/index'
+
 Component({
     /**
      * 组件的属性列表
@@ -31,6 +35,7 @@ Component({
             wx.navigateTo({
               url: '/pages/music-player/index?id='+ id,
             })
+            playeStore.dispatch("playMusicWitthSongIdAction",{id})
         }
     }
 })

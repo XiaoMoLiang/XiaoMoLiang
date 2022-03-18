@@ -1,30 +1,34 @@
-// pages/music-player/index.js
 import {
-    getSongDetail,
-    getSongLyric
-} from '../../service/api_player'
-import {
-    audioContext
+    audioContext,
+    playeStore
 } from '../../store/player-store'
-import {
-    parseLyric
-} from '../../utils/parse-lyric'
+
+const playModeNames = ['order','repeat','random']
 Page({
 
     data: {
-        id: "",
+        id: 0,
+
         surrentSong: [],
         duration: 0,
-        currentTime: 0,
         lyricInfos: [],
+
+        currentTime: 0,
         currentLyricIndex: 0,
         currentLyricText: "",
+
+        playModeIndex:0,
+        playModeName:'order',
+
+        isPlaying:false,
+        playingName:'pause',
 
         currentPage: 0,
         contentHeight: 0,
         isMusicLyric: true,
         sliderValue: 0,
-        isSliderChaning: false
+        isSliderChaning: false,
+        lyricScrollTop: 0
     },
 
     onLoad: function (options) {
@@ -35,7 +39,7 @@ Page({
         })
 
         // 根据id获取歌曲信息
-        this.getPageData(id)
+        this.setupPlayerStoreListener()
 
         // 动态计算内容高度
         const globalData = getApp().globalData
@@ -48,75 +52,6 @@ Page({
             contentHeight,
             isMusicLyric: deviceRadio <= 0.5
         })
-
-        // 使用audioContext播放歌曲
-        audioContext.stop()
-        audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
-        // audioContext.autoplay = true
-
-        this.setupAudioContextListener()
-    },
-
-    //  ==================== 网络请求  ====================
-    getPageData(id) {
-        getSongDetail(id).then(res => {
-            this.setData({
-                surrentSong: res.songs[0],
-                duration: res.songs[0].dt
-            })
-        })
-
-        getSongLyric(id).then(res => {
-            const lyricString = res.lrc.lyric
-            const lyrics = parseLyric(lyricString)
-            this.setData({
-                lyricInfos: lyrics
-            })
-        })
-    },
-
-
-
-    //  ====================  audio监听   ====================
-    setupAudioContextListener() {
-        audioContext.onCanplay(() => {
-            // audioContext.play() // 播放
-        })
-
-        audioContext.onTimeUpdate(() => {
-            // 获取当前时间
-            const currentTime = audioContext.currentTime * 1000
-
-            // 根据当前时间修改currentTIme/sliderValue
-            if (!this.data.isSliderChaning) {
-                const sliderValue = currentTime / this.data.duration * 100
-                this.setData({
-                    sliderValue,
-                    currentTime
-                })
-            }
-
-            // 根据当前时间去查找播放的歌词
-            let i = 0
-            for (; i < this.data.lyricInfos.length; i++) {
-                const lyricInfo = this.data.lyricInfos[i]
-                if (currentTime < lyricInfo.time) {
-                    break
-                }
-            }
-
-            // 设置当前歌词的索引和内容
-            if (this.data.currentLyricIndex !== i - 1) {
-                const currentLyricInfo = this.data.lyricInfos[i - 1]
-                console.log(currentLyricInfo.text);
-                this.setData({
-                    currentLyricText: currentLyricInfo.text,
-                    currentLyricIndex:i-1
-                })
-            }
-
-        })
-
     },
 
     //  ====================  事件处理   ====================
@@ -132,8 +67,7 @@ Page({
         const currentTime = this.data.duration * value / 100
         this.setData({
             isSliderChaning: true,
-            currentTime,
-            sliderValue: value
+            currentTime
         })
 
     },
@@ -147,7 +81,12 @@ Page({
 
         // 设置context播放currenTIme位置的音乐
         audioContext.pause() // 先暂停一下以免异常
+        if(!this.data.isPlaying){
+            playeStore.dispatch("changeMusicPlayStatusAction")
+        }
         audioContext.seek(currenTime / 1000) // 要传秒
+        
+       
 
         // 记录最新的sliderValue
         this.setData({
@@ -155,5 +94,83 @@ Page({
             isSliderChaning: false
         })
     },
+
+    handleBackClick(){
+        wx.navigateBack()
+    },
+
+    //播放模式
+    handleModeBtnClick(){
+        // 计算最新的playModeIndex
+        let playModeIndex = this.data.playModeIndex + 1
+        if(playModeIndex === 3) playModeIndex = 0
+        // 设置playerStore中的playModeIndex
+        playeStore.setState('playModeIndex',playModeIndex)
+    },
+
+    // 暂停开始
+    handlePlayBtnClick(){
+        playeStore.dispatch("changeMusicPlayStatusAction")
+    },
+
+
+    //  ====================  数据监听   ====================
+    setupPlayerStoreListener() {
+        // 监听currentSong、duration、lyricInfos
+        playeStore.onStates(['currentSong', 'duration', 'lyricInfos'], ({
+            currentSong,
+            duration,
+            lyricInfos
+        }) => {
+            if (currentSong) this.setData({
+                surrentSong: currentSong
+            })
+            if (duration) this.setData({
+                duration
+            })
+            if (lyricInfos) this.setData({
+                lyricInfos
+            })
+
+        })
+
+        // 监听currentTime/currentLyricIndex/currentLyricText
+        playeStore.onStates(['currentTime','currentLyricIndex','currentLyricText'],({
+            currentTime,
+            currentLyricIndex,
+            currentLyricText
+        })=>{
+            // 时间变化
+            if(currentTime && !this.data.isSliderChaning) {
+                const sliderValue = currentTime / this.data.duration * 100
+                this.setData({ currentTime })
+            } 
+            // 歌词变化
+            if(currentLyricIndex){
+                this.setData({currentLyricIndex,lyricScrollTop:currentLyricIndex*35})
+            }
+            if(currentLyricText){
+                this.setData({currentLyricText})
+            }
+        })
+
+        // 监听播放模式相关的数据
+        playeStore.onStates(['playModeIndex','isPlaying'],({playModeIndex,isPlaying})=>{
+            if(playModeIndex !== undefined){
+                this.setData({
+                    playModeIndex,
+                    playModeName:playModeNames[playModeIndex]
+                })
+            }
+
+            if(isPlaying !== undefined){
+                this.setData({
+                    isPlaying,
+                    playingName:isPlaying ? 'pause' : 'resume'
+                })
+            }
+            
+        })
+    }
 
 })

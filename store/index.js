@@ -1,9 +1,10 @@
 import {rankingStore,rankingMap} from './ranking-store'
 
-import {audioContext} from './player-store'
+import {audioContext,playeStore} from './player-store'
 
 export {
     rankingStore,
     rankingMap,
-    audioContext
+    audioContext,
+    playeStore
 }

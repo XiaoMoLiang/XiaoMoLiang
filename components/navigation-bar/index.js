@@ -20,7 +20,7 @@ Component({
 
     methods: {
         hanleIconClick(){
-            wx.navigateBack()
+            this.triggerEvent('click')
         }
     }
 })
