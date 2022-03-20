@@ -2,26 +2,35 @@
 import {
     rankingStore
 } from '../../store/index'
-import {getSongDetail} from "../../service/api_music"
+import {
+    getSongDetail
+} from "../../service/api_music"
+import{playeStore} from '../../store/player-store'
 Page({
 
     data: {
-        type:"",
+        type: "",
         ranking: "",
         songInfo: {},
     },
 
     onLoad: function (options) {
         const type = options.type
-        this.setData({type:options.type})
+        this.setData({
+            type: options.type
+        })
         if (type === "menu") {
             const id = options.id
-            getSongDetail(id).then(res=>{
-                this.setData({songInfo:res.playlist})
+            getSongDetail(id).then(res => {
+                this.setData({
+                    songInfo: res.playlist
+                })
             })
         } else if (type === "rank") {
             const ranking = options.ranking
-            this.setData({ ranking})
+            this.setData({
+                ranking
+            })
             // 获取数据  //通过穿过来的值 指定葱onState获取指定的数据 如：ranking = :hotRanking 就会去State获取hotRanking的数据
             rankingStore.onState(ranking, this.getRankingDataHanlder)
         }
@@ -29,10 +38,17 @@ Page({
 
 
     onUnload: function () {
-        if(this.data.ranking){
+        if (this.data.ranking) {
             rankingStore.offState(this.data.ranking, this.getRankingDataHanlder)
         }
-        
+
+    },
+
+    handleSongItemClick(e) {
+        let index = e.currentTarget.dataset.index
+        console.log(this.data.songInfo.tracks);
+        playeStore.setState('playListSongs', this.data.songInfo.tracks)
+        playeStore.setState('playListIndex', index)
     },
 
     // 根据ranking 获取state的数据

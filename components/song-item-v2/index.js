@@ -35,7 +35,9 @@ Component({
             wx.navigateTo({
               url: '/pages/music-player/index?id='+ id,
             })
+            // 播放歌曲
             playeStore.dispatch("playMusicWitthSongIdAction",{id})
+            
         }
     }
 })

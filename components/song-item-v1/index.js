@@ -27,11 +27,14 @@ Component({
     methods: {
         handleSongItemClick() {
             let id = this.properties.item.id
+            // 页面跳转
             wx.navigateTo({
                 url: '/pages/music-player/index?id=' + id,
             })
             // 对歌曲的数据请求和其他操作
             playeStore.dispatch("playMusicWitthSongIdAction",{id})
+            // 获取到播放列表/当前歌曲的索引
+            
         }
     }
 })

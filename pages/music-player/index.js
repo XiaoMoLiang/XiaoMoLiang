@@ -73,6 +73,7 @@ Page({
     },
 
     handleSiiderChang(e) {
+
         // 获取slider变化的值
         const value = e.detail.value
 
@@ -82,11 +83,9 @@ Page({
         // 设置context播放currenTIme位置的音乐
         audioContext.pause() // 先暂停一下以免异常
         if(!this.data.isPlaying){
-            playeStore.dispatch("changeMusicPlayStatusAction")
+            playeStore.dispatch("changeMusicPlayStatusAction",false)
         }
         audioContext.seek(currenTime / 1000) // 要传秒
-        
-       
 
         // 记录最新的sliderValue
         this.setData({
@@ -110,7 +109,16 @@ Page({
 
     // 暂停开始
     handlePlayBtnClick(){
-        playeStore.dispatch("changeMusicPlayStatusAction")
+        playeStore.dispatch("changeMusicPlayStatusAction",!this.data.isPlaying)
+    },
+
+    // 上一首
+    handlePrevBtnClick(){
+        playeStore.dispatch("changeNewMusicAction",false)
+    },
+    // 下一首
+    handleNextBtnClick(){
+        playeStore.dispatch("changeNewMusicAction")
     },
 
 
