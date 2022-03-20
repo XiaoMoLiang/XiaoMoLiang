@@ -1,7 +1,0 @@
-<!--pages/home-videm/index.wxml-->
-<view class="video">
-<block wx:for="{{topMVs}}" wx:key="id">
-    <view>{{item.name
-    }}</view>
-</block>
-</view>
