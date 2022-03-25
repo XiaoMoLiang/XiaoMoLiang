@@ -81,7 +81,7 @@ Page({
         const currenTime = this.data.duration * value / 100
 
         // 设置context播放currenTIme位置的音乐
-        audioContext.pause() // 先暂停一下以免异常
+        // audioContext.pause() // 先暂停一下以免异常
         if(!this.data.isPlaying){
             playeStore.dispatch("changeMusicPlayStatusAction",false)
         }
@@ -151,11 +151,11 @@ Page({
             // 时间变化
             if(currentTime && !this.data.isSliderChaning) {
                 const sliderValue = currentTime / this.data.duration * 100
-                this.setData({ currentTime })
+                this.setData({ currentTime,sliderValue })
             } 
             // 歌词变化
             if(currentLyricIndex){
-                this.setData({currentLyricIndex,lyricScrollTop:currentLyricIndex*35})
+                this.setData({currentLyricIndex,lyricScrollTop:currentLyricIndex*35,})
             }
             if(currentLyricText){
                 this.setData({currentLyricText})

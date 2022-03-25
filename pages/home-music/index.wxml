@@ -36,7 +36,8 @@
 </view>
 
 <!-- 播放工具栏 -->
-<view class="play-bar">
+<view class="play-bar-placeholder"  wx:if="{{currentSong.id}}"></view>
+<view class="play-bar" bindtap="handlePlayBarClick" wx:if="{{currentSong.id}}">
     <view class="left">
         <image 
         class="album album-anim" 
@@ -49,7 +50,7 @@
     <view class="right">
         <image 
         class="icon play" 
-        src="/images/music/{{isPlaying ? 'pause' : 'play' }}_icon.png" bindtap="handlePlayBtnClick"
+        src="/images/music/{{isPlaying ? 'pause' : 'play' }}_icon.png" catchtap="handlePlayBtnClick"
         ></image>
         <image class="icon play" src="/images/music/playlist_icon.png"></image>
     </view>

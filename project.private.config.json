@@ -29,6 +29,12 @@
                     "pathName": "pages/detail-serrch/index",
                     "query": "",
                     "scene": null
+                },
+                {
+                    "name": "home-pro",
+                    "pathName": "pages/home-pro/index",
+                    "query": "",
+                    "scene": null
                 }
             ]
         }

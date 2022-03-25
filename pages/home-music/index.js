@@ -64,6 +64,12 @@ Page({
     })
   },
 
+  handlePlayBarClick(){
+    wx.navigateTo({
+      url: '/pages/music-player/index?id=' + this.data.currentSong.id,
+    })
+  },
+
 
 
   // 子组件的方法

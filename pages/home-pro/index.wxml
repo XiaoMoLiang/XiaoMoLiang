@@ -1,0 +1,2 @@
+<!--pages/home-pro/index.wxml-->
+<button bindtap="handleGetUser">获取用户信息</button>

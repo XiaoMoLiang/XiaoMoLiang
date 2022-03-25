@@ -9,11 +9,15 @@ import {
     parseLyric
 } from '../utils/parse-lyric'
 
-const audioContext = wx.createInnerAudioContext()
+
+// const audioContext = wx.createInnerAudioContext() // audioContext 前台
+const audioContext = wx.getBackgroundAudioManager() // audioContext 后台
+
 
 const playeStore = new HYEventStore({
     state: {
-        isFirstPlay:true,
+        isFirstPlay: true,
+        isStoping: false,
 
         id: 0,
         currentSong: {},
@@ -33,8 +37,11 @@ const playeStore = new HYEventStore({
 
     },
     actions: {
-        playMusicWitthSongIdAction(ctx, { id, isRefresh = false }) {
-            if (id == ctx.id && !isRefresh ) {
+        playMusicWitthSongIdAction(ctx, {
+            id,
+            isRefresh = false
+        }) {
+            if (id == ctx.id && !isRefresh) {
                 this.dispatch("changeMusicPlayStatusAction", true)
                 return
             }
@@ -53,6 +60,7 @@ const playeStore = new HYEventStore({
             getSongDetail(id).then(res => {
                 ctx.currentSong = res.songs[0]
                 ctx.duration = res.songs[0].dt
+                audioContext.title = res.songs[0].name
             })
 
             // 请求歌词
@@ -65,14 +73,15 @@ const playeStore = new HYEventStore({
             // 使用audioContext播放歌曲
             audioContext.stop()
             audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+            audioContext.title = id
             audioContext.autoplay = true
 
             // 监听audioContext一些事件
-            if(ctx.isFirstPlay){
+            if (ctx.isFirstPlay) {
                 this.dispatch("setupAudioContextListenerAction")
                 ctx.isFirstPlay = false
             }
-            
+
         },
 
         setupAudioContextListenerAction(ctx) {
@@ -108,18 +117,39 @@ const playeStore = new HYEventStore({
 
             })
             // 监听歌曲播放完成
-            audioContext.onEnded(()=>{
+            audioContext.onEnded(() => {
                 this.dispatch("changeNewMusicAction")
+            })
+            //监听音乐在那听/播放
+            // 播放状态
+            audioContext.onPlay(() => {
+                ctx.isPlaying = true
+            })
+            // 暂停状态
+            audioContext.onPause(() => {
+                ctx.isPlaying = false
+            })
+            audioContext.onStop(() => {
+                ctx.isPlaying = false
+                ctx.isStoping = true
             })
         },
 
         changeMusicPlayStatusAction(ctx, isPlaying = true) {
             ctx.isPlaying = isPlaying
+            if (ctx.isPlaying && ctx.isStoping) {
+                audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
+                audioContext.title = currentSong.name
+            }
             ctx.isPlaying ? audioContext.play() : audioContext.pause()
+            if(ctx.isStoping){
+                audioContext.seek(ctx.currentTime)
+                ctx.isStoping = false
+            }
         },
 
         // 播放下一首/上一首
-        changeNewMusicAction(ctx,isNext = true) {
+        changeNewMusicAction(ctx, isNext = true) {
             // 获取索引
             let index = ctx.palyListIndex
             // 根据不同的播放模式，获取下一首的索引
@@ -140,7 +170,7 @@ const playeStore = new HYEventStore({
             let currentSong = ctx.playListSongs[index]
             if (!currentSong) {
                 currentSong = ctx.currentSong
-            }else{
+            } else {
                 // 记录最新的索引
                 ctx.palyListIndex = index
             }
@@ -148,7 +178,7 @@ const playeStore = new HYEventStore({
             //播放新的歌曲
             this.dispatch("playMusicWitthSongIdAction", {
                 id: currentSong.id,
-                isRefresh:true
+                isRefresh: true
             })
         },
 
